@@ -2833,9 +2833,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 738067901}
-  - component: {fileID: 738067902}
   - component: {fileID: 738067904}
   - component: {fileID: 738067903}
+  - component: {fileID: 738067902}
+  - component: {fileID: 738067905}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2871,18 +2872,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b524a06bff94f849b336daeebe71b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lateralForce: 6
-  isGrounded: 0
-  groundMask:
+  _lateralForce: 6
+  _groundMask:
     serializedVersion: 2
     m_Bits: 8
-  isJumping: 0
-  bounceMat: {fileID: 6200000, guid: c613e9e33edb7d14d9ea7db133b6f480, type: 2}
-  normalMat: {fileID: 6200000, guid: 43578926be206da4d809f0f5bb43950b, type: 2}
-  jumpValue: 0
-  maxJumpValue: 10
-  leftButton: {fileID: 1464807345}
-  rightButton: {fileID: 892691406}
+  _jumpValue: 0
+  _maxJumpValue: 10
+  _bounceForce: 0.5
+  _leftButton: {fileID: 1464807345}
+  _rightButton: {fileID: 892691406}
 --- !u!50 &738067903
 Rigidbody2D:
   serializedVersion: 4
@@ -2955,6 +2953,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6881423, y: 0.69366777}
   m_EdgeRadius: 0
+--- !u!114 &738067905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738067900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8729e9222de60a24b816398e351a5ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _boxSize: {x: 0.15, y: 0.71}
+  _boxOffset: {x: 0.26, y: -0.11}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &782803538
 GameObject:
   m_ObjectHideFlags: 0

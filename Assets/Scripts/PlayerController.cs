@@ -4,114 +4,114 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float lateralForce = 6;
-    public bool isGrounded;
-    private Rigidbody2D rb;
-    public LayerMask groundMask;
-    public bool isJumping = false;
-
-    public PhysicsMaterial2D bounceMat, normalMat;
-    public float jumpValue = 0.0f;
-    public float maxJumpValue;
-
-    public ButtonPressed leftButton;
-    public ButtonPressed rightButton;
-
-    private Animator _anim;
-
-    void Start()
+    [SerializeField] private float _lateralForce = 6;
+    [SerializeField] private LayerMask _groundMask;
+    [SerializeField] private float _jumpValue = 0.0f;
+    [SerializeField] private float _maxJumpValue = 10;
+    [SerializeField, Range(0, 10f)] private float _bounceForce = 1f;
+    [SerializeField] private ButtonPressed _leftButton;
+    [SerializeField] private ButtonPressed _rightButton;
+    private bool _isGrounded
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        _anim = gameObject.GetComponentInChildren<Animator>();
+        get => _playerCollision.IsGrounded();
+    }
+    private bool _hasWallInFront
+    {
+        get => _playerCollision.HasWallInFront();
+    }
+    private Rigidbody2D _rb;
+    private bool _isJumping = false;
+    private Animator _anim;
+    private PlayerCollision _playerCollision;
+
+    void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+        _anim = GetComponentInChildren<Animator>();
+        _playerCollision = GetComponent<PlayerCollision>();
     }
 
     void Update()
     {
         CheckButtonPressed();
-        isGrounded = Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.5f),
-        new Vector2(0.4f, 0.1f), 0f, groundMask);
-        
-        if(isGrounded)
+
+        if (_isGrounded && _jumpValue == 0)
         {
-            _anim.SetBool("isGrounded", true);
-        }
-        else
-        {
-            _anim.SetBool("isGrounded", false);
+            _rb.velocity = new Vector2(0, 0);
         }
 
-        if (isGrounded && jumpValue == 0)
+        if (_rb.velocity.y != 0 && _hasWallInFront)
         {
-            rb.velocity = new Vector2(0, 0);
+            _rb.velocity = new Vector2(-_bounceForce * _rb.velocity.x,
+                _rb.velocity.y);
+
+            transform.localScale = new Vector3(-1 * transform.localScale.x,
+                1, 1);
         }
 
-        if (jumpValue > 0)
+        if (_jumpValue >= _maxJumpValue && _isGrounded)
         {
-            rb.sharedMaterial = bounceMat;
-        }
-        else
-        {
-            rb.sharedMaterial = normalMat;
-        }
-
-        if(jumpValue >= maxJumpValue && isGrounded)
-        {
-            float tempx = this.transform.localScale.x * lateralForce;
-            float tempy = jumpValue;
-            rb.velocity = new Vector2(tempx, tempy);
+            float tempx = this.transform.localScale.x * _lateralForce;
+            float tempy = _jumpValue;
+            _rb.velocity = new Vector2(tempx, tempy);
             _anim.SetBool("isPreJumping", false);
             Invoke("ResetJump", 0.2f);
         }
 
-        if(isJumping)
+        if (_isJumping)
         {
-            if(isGrounded)
+            if (_isGrounded)
             {
-                rb.velocity = new Vector2(this.transform.localScale.x * lateralForce, jumpValue);
-                jumpValue = 0.0f;
-                isJumping = false;
+                _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
+                _jumpValue = 0.0f;
+                _isJumping = false;
                 _anim.SetBool("isPreJumping", false);
             }
         }
-        _anim.SetFloat("VerticalVelocity", rb.velocity.y);
+        _anim.SetFloat("VerticalVelocity", _rb.velocity.y);
     }
 
     void ResetJump()
     {
-        jumpValue = 0;
+        _jumpValue = 0;
     }
 
     public void CheckButtonPressed()
     {
-        if(leftButton.buttonPressed && isGrounded)
+        if (_leftButton.buttonPressed && _isGrounded)
         {
-            this.gameObject.transform.localScale = new Vector3(-1, 1, 1);
-            jumpValue += 0.1f;
+            transform.localScale = new Vector3(-1, 1, 1);
+            _jumpValue += 0.1f;
             _anim.SetBool("isPreJumping", true);
             return;
         }
-        else if(rightButton.buttonPressed && isGrounded)
+        else if (_rightButton.buttonPressed && _isGrounded)
         {
-            this.gameObject.transform.localScale = new Vector3(1, 1, 1);
-            jumpValue += 0.1f;
+            transform.localScale = new Vector3(1, 1, 1);
+            _jumpValue += 0.1f;
             _anim.SetBool("isPreJumping", true);
             return;
         }
 
-        if(!leftButton.buttonPressed && !rightButton.buttonPressed)
+        if (!_leftButton.buttonPressed && !_rightButton.buttonPressed)
         {
 
             _anim.SetBool("isPreJumping", false);
-            if (jumpValue > 0)
+            if (_jumpValue > 0)
             {
-                isJumping = true;
+                _isJumping = true;
             }
         }
     }
 
-    /*void OnDrawGizmosSelected()
+    /*
+#if UNITY_EDITOR
+
+    void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawCube(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.55f), new Vector2(0.4f, 0.1f));
-    }*/
+    }
+#endif
+    */
 }
