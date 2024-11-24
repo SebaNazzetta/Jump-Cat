@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private bool _isPortrait = false;
     [SerializeField] private float _lateralForce = 6;
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private float _jumpValue = 0.0f;
@@ -81,14 +82,28 @@ public class PlayerController : MonoBehaviour
         if (_leftButton.buttonPressed && _isGrounded)
         {
             transform.localScale = new Vector3(-1, 1, 1);
-            _jumpValue += 0.1f;
+            if (_isPortrait)
+            {
+                _jumpValue += 0.2f;
+            }
+            else
+            {
+                _jumpValue += 0.1f;
+            }
             _anim.SetBool("isPreJumping", true);
             return;
         }
         else if (_rightButton.buttonPressed && _isGrounded)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            _jumpValue += 0.1f;
+            if (_isPortrait)
+            {
+                _jumpValue += 0.2f;
+            }
+            else
+            {
+                _jumpValue += 0.1f;
+            }
             _anim.SetBool("isPreJumping", true);
             return;
         }
