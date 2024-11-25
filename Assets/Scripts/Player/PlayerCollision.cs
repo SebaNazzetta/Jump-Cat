@@ -24,7 +24,7 @@ public class PlayerCollision : MonoBehaviour
     {
         bool isGrounded = Physics2D.OverlapBox(new Vector2(transform.position.x, 
             transform.position.y - 0.5f), 
-            new Vector2(0.4f, 0.1f), 0f, _groundMask);
+            new Vector2(0.5f, 0.1f), 0f, _groundMask);
 
         _anim.SetBool("isGrounded", isGrounded);
         return isGrounded;
