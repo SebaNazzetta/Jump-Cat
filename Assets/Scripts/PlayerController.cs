@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
         {
             float tempx = this.transform.localScale.x * _lateralForce;
             float tempy = _jumpValue;
+            if(_leftButton.buttonPressed && _rightButton.buttonPressed)
+            {
+                tempx = 0;
+            }
             _rb.velocity = new Vector2(tempx, tempy);
             _anim.SetBool("isPreJumping", false);
             Invoke("ResetJump", 0.2f);
