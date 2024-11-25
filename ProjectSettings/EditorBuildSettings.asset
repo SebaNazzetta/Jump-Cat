@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/GameplayLandscape.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameplayPortrait.unity
     guid: 323eed8aebb06d1449547e54cab0d08b
+  - enabled: 1
+    path: Assets/Scenes/GameplayPortraitNoUI.unity
+    guid: ca1bf443a5efd3a4e90d9ff7e1497bce
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: e6cf6d5bc3b42724db63746e7873ea83, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 717843575c0e0154bbb27e7702211661, type: 2}

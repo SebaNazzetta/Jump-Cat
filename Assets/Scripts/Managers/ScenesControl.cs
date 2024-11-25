@@ -10,6 +10,11 @@ public class ScenesControl : MonoBehaviour
         SceneManager.LoadScene("GameplayPortrait");
     }
 
+    public void PortraitNoUIScene()
+    {
+        SceneManager.LoadScene("GameplayPortraitNoUI");
+    }
+
     public void LandscapeScene()
     {
         SceneManager.LoadScene("GameplayLandscape");

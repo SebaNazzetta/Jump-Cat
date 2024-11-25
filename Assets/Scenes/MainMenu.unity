@@ -550,7 +550,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 117586752}
         m_TargetAssemblyTypeName: ScenesControl, Assembly-CSharp
-        m_MethodName: PortraitScene
+        m_MethodName: PortraitNoUIScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
