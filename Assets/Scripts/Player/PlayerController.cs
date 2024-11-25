@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
             }
             _rb.velocity = new Vector2(tempx, tempy);
             _anim.SetBool("isPreJumping", false);
+            SetLastJumpForce(_jumpValue);
             Invoke("ResetJump", 0.2f);
         }
 
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
             if (_isGrounded)
             {
                 _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
+                SetLastJumpForce(_jumpValue);
                 _jumpValue = 0.0f;
                 _isJumping = false;
                 _anim.SetBool("isPreJumping", false);
@@ -123,6 +125,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private float _lastJumpForce;
+    public void SetLastJumpForce(float force)
+    {
+        _lastJumpForce = force;
+    }
+
+    public float GetLastJumpForce()
+    {
+        return _lastJumpForce;
+    }
     /*
 #if UNITY_EDITOR
 
