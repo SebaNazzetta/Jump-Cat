@@ -10839,6 +10839,58 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _wallBoxSize.x
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _wallBoxSize.y
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _cornerBoxSize.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _cornerBoxSize.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _groundBoxSize.x
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _groundBoxSize.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _groundBoxsize.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _groundBoxsize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _wallBoxOffset.x
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _wallBoxOffset.y
+      value: -0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _cornerBoxOffset.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _cornerBoxOffset.y
+      value: 0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _groundBoxOffset.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6728926818633870302, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
       propertyPath: m_Size.y
       value: 0.8178577

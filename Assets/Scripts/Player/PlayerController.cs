@@ -20,6 +20,13 @@ public class PlayerController : MonoBehaviour
     {
         get => _playerCollision.HasWallInFront();
     }
+
+    private bool _isCorner
+    {
+        get => _playerCollision.IsCorner();
+    }
+
+
     private Rigidbody2D _rb;
     private bool _isJumping = false;
     private Animator _anim;
@@ -35,12 +42,21 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CheckButtonPressed();
+        
+        //For when the player stands in a corner //////queda arreglar que siempre empuja hacia el mismo lado
+        if(_isCorner && !_isGrounded)
+        {
+            _rb.velocity = new Vector2(_bounceForce + 0.7f,
+                _rb.velocity.y);
+        }
 
+        //For when the player touches the ground
         if (_isGrounded && _jumpValue == 0)
         {
             _rb.velocity = new Vector2(0, 0);
         }
 
+        //For when the player touches a wall ////////queda arreglar que, si saltamos hacia una pared, estando pegado a una pared, debería empujarnos de igual manera.
         if (_rb.velocity.y != 0 && _hasWallInFront)
         {
             _rb.velocity = new Vector2(-_bounceForce * _rb.velocity.x,
@@ -50,6 +66,7 @@ public class PlayerController : MonoBehaviour
                 1, 1);
         }
 
+        //For when the player jumps
         if (_jumpValue >= _maxJumpValue && _isGrounded)
         {
             float tempx = this.transform.localScale.x * _lateralForce;
@@ -64,6 +81,7 @@ public class PlayerController : MonoBehaviour
             Invoke("ResetJump", 0.2f);
         }
 
+        //For when the player jumps at max force
         if (_isJumping)
         {
             if (_isGrounded)

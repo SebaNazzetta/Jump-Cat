@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    [SerializeField] private Vector2 _boxSize;
-    [SerializeField] private Vector2 _boxOffset;
+    [SerializeField] private Vector2 _groundBoxSize;
+    [SerializeField] private Vector2 _groundBoxOffset;
+    [SerializeField] private Vector2 _wallBoxSize;
+    [SerializeField] private Vector2 _wallBoxOffset;
+    [SerializeField] private Vector2 _cornerBoxSize;
+    [SerializeField] private Vector2 _cornerBoxOffset;
     [SerializeField] private LayerMask _groundMask;
     private Animator _anim;
 
@@ -16,27 +20,47 @@ public class PlayerCollision : MonoBehaviour
     public bool HasWallInFront()
     {
         return Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x
-        + (_boxOffset.x * transform.localScale.x), gameObject.transform
-        .position.y + _boxOffset.y), _boxSize, 0f, _groundMask);
+        + (_wallBoxOffset.x * transform.localScale.x), gameObject.transform
+        .position.y + _wallBoxOffset.y), _wallBoxSize, 0f, _groundMask);
     }
 
     public bool IsGrounded()
     {
-        bool isGrounded = Physics2D.OverlapBox(new Vector2(transform.position.x, 
-            transform.position.y - 0.5f), 
-            new Vector2(0.5f, 0.1f), 0f, _groundMask);
+        bool isGrounded = Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x,
+            gameObject.transform.position.y - _groundBoxOffset.y), _groundBoxSize, 0f, _groundMask);
 
         _anim.SetBool("isGrounded", isGrounded);
         return isGrounded;
     }
 
-// #if UNITY_EDITOR
-//     private void OnDrawGizmosSelected()
-//     {
-//         Gizmos.color = Color.green;
-//         Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x
-//         + (_boxOffset.x * transform.localScale.x), gameObject.transform
-//         .position.y + _boxOffset.y), _boxSize);
-//     }
-// #endif
+    public bool IsCorner()
+    {
+        bool isCorner = Physics2D.OverlapBox(new Vector2((gameObject.transform.position.x
+         + (_cornerBoxOffset.x * transform.localScale.x) * -1),
+            gameObject.transform.position.y - 0.55f), new Vector2(0.1f, 0.1f), 0f, _groundMask);
+        return isCorner;
+    }
+
+ #if UNITY_EDITOR
+     private void OnDrawGizmosSelected()
+     {
+        // Draw a box for walls
+         Gizmos.color = Color.green;
+         Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x
+         + (_wallBoxOffset.x * transform.localScale.x), gameObject.transform
+         .position.y + _wallBoxOffset.y), _wallBoxSize);
+
+        // Draw a box for ground
+        Gizmos.color = Color.green;
+        Gizmos.DrawCube(new Vector2(gameObject.transform.position.x, 
+            gameObject.transform.position.y - _groundBoxOffset.y), _groundBoxSize);
+
+        // Draw two box for ground corners
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector2((gameObject.transform.position.x
+         + (_cornerBoxOffset.x * transform.localScale.x) * -1),
+            gameObject.transform.position.y - _cornerBoxOffset.y), _cornerBoxSize);
+    }
+
+ #endif
 }
