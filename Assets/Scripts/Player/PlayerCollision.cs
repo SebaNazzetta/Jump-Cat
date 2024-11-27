@@ -37,7 +37,7 @@ public class PlayerCollision : MonoBehaviour
     {
         bool isCorner = Physics2D.OverlapBox(new Vector2((gameObject.transform.position.x
          + (_cornerBoxOffset.x * transform.localScale.x) * -1),
-            gameObject.transform.position.y - 0.55f), new Vector2(0.1f, 0.1f), 0f, _groundMask);
+            gameObject.transform.position.y - _cornerBoxOffset.y), _cornerBoxSize, 0f, _groundMask);
         return isCorner;
     }
 

@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0, 10f)] private float _bounceForce = 1f;
     [SerializeField] private ButtonPressed _leftButton;
     [SerializeField] private ButtonPressed _rightButton;
+
+    private float _timeFalling = 0;
+    private float _timeHurt = 0;
+    private float _timeToFall = 2f;
+    private float _timeToHurt = 1f;
+
     private bool _isGrounded
     {
         get => _playerCollision.IsGrounded();
@@ -41,19 +47,40 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        CheckButtonPressed();
-        
-        //For when the player stands in a corner //////queda arreglar que siempre empuja hacia el mismo lado
-        if(_isCorner && !_isGrounded)
+        //If player falls for x seconds, then it will be hurted for x seconds
+        if (!_isGrounded && _rb.velocity.y < 0)
         {
-            _rb.velocity = new Vector2(_bounceForce + 0.7f,
-                _rb.velocity.y);
+            _timeFalling += Time.deltaTime;
+            if (_timeFalling >= _timeToFall)
+            {
+                _anim.SetBool("isHurted", true);
+            }
+        }
+        if(_anim.GetBool("isHurted") && _isGrounded)
+        {
+            if(_timeHurt <= _timeToHurt)
+            {
+                _timeHurt += Time.deltaTime;
+                return;
+            }
+            _anim.SetBool("isHurted", false);
+            _timeHurt = 0f;
+            _timeFalling = 0f;
         }
 
+        CheckButtonPressed();
+        
         //For when the player touches the ground
         if (_isGrounded && _jumpValue == 0)
         {
             _rb.velocity = new Vector2(0, 0);
+        }
+
+        //For when the player stands in a corner
+        if (_isCorner && !_isGrounded)
+        {
+            _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
+                _rb.velocity.y+0.3f);
         }
 
         //For when the player touches a wall ////////queda arreglar que, si saltamos hacia una pared, estando pegado a una pared, debería empujarnos de igual manera.
@@ -94,6 +121,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         _anim.SetFloat("VerticalVelocity", _rb.velocity.y);
+
+
     }
 
     void ResetJump()
@@ -153,14 +182,4 @@ public class PlayerController : MonoBehaviour
     {
         return _lastJumpForce;
     }
-    /*
-#if UNITY_EDITOR
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawCube(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.55f), new Vector2(0.4f, 0.1f));
-    }
-#endif
-    */
 }
