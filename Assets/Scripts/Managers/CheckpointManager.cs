@@ -5,6 +5,7 @@ using UnityEngine;
 public class CheckpointManager : MonoBehaviour
 {
     public GameObject player;
+    public bool checkpointsActive = true;
     public Vector3 lastCheckpoint;
 
     private void Start()
