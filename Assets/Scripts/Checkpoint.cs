@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AD_Checkpoint : MonoBehaviour
+public class Checkpoint : MonoBehaviour
 {
+    private bool _isCurrentCheckpoint;
     private PlayerCollision _playerCollision;
     private BoxCollider2D _boxCollider2D;
     private bool _isPlayerGrounded
@@ -32,5 +33,10 @@ public class AD_Checkpoint : MonoBehaviour
             //Open UI for checkpoints
             //FindObjectOfType<CheckpointManager>().SaveCurrentPosition();
         }
+    }
+
+    public void SetCurrentCheckpoint(bool value)
+    {
+        _isCurrentCheckpoint = value;
     }
 }
