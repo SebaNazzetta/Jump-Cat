@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
             if (_timeFalling >= _timeToFall)
             {
                 _anim.SetBool("isHurted", true);
+                _timeFalling = 0f;
             }
         }
         if(_anim.GetBool("isHurted") && _isGrounded)
@@ -64,8 +65,8 @@ public class PlayerController : MonoBehaviour
                 return;
             }
             _anim.SetBool("isHurted", false);
+            _anim.SetBool("hitWall", false);
             _timeHurt = 0f;
-            _timeFalling = 0f;
         }
 
         CheckButtonPressed();
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded && _jumpValue == 0)
         {
             _rb.velocity = new Vector2(0, 0);
+            _anim.SetBool("hitWall", false);
         }
 
         //For when the player stands in a corner
@@ -86,6 +88,7 @@ public class PlayerController : MonoBehaviour
         //For when the player touches a wall ////////queda arreglar que, si saltamos hacia una pared, estando pegado a una pared, debería empujarnos de igual manera.
         if (_rb.velocity.y != 0 && _hasWallInFront)
         {
+            _anim.SetBool("hitWall", true);
             _rb.velocity = new Vector2(-_bounceForce * _rb.velocity.x,
                 _rb.velocity.y);
 
