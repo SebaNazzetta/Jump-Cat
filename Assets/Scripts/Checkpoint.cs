@@ -7,6 +7,10 @@ public class Checkpoint : MonoBehaviour
     private bool _isCurrentCheckpoint;
     private PlayerCollision _playerCollision;
     private BoxCollider2D _boxCollider2D;
+    [SerializeField] private Sprite _deactivatedSprite;
+    [SerializeField] private Sprite _activatedSprite;
+
+    private CheckpointManager _checkpointManager;
     private bool _isPlayerGrounded
     {
         get => _playerCollision.IsGrounded();
@@ -15,6 +19,8 @@ public class Checkpoint : MonoBehaviour
     {
         _playerCollision = FindObjectOfType<PlayerCollision>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _checkpointManager = FindObjectOfType<CheckpointManager>();
+
     }
     private void Update()
     {
@@ -28,15 +34,24 @@ public class Checkpoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player") && !_isCurrentCheckpoint)
         {
             //Open UI for checkpoints
-            //FindObjectOfType<CheckpointManager>().SaveCurrentPosition();
+            _checkpointManager.OpenCheckpointUI(this);
         }
     }
 
-    public void SetCurrentCheckpoint(bool value)
+    public void SetCurrentCheckpoint()
     {
-        _isCurrentCheckpoint = value;
+        foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
+        {
+            checkpoint._isCurrentCheckpoint = false;
+            checkpoint.GetComponent<SpriteRenderer>().sprite = checkpoint._deactivatedSprite;
+            if (checkpoint == this)
+            {
+                checkpoint._isCurrentCheckpoint = true;
+                checkpoint.GetComponent<SpriteRenderer>().sprite = checkpoint._activatedSprite;
+            }
+        }
     }
 }
