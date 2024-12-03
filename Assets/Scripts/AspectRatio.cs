@@ -11,6 +11,7 @@ public class AspectRatio : MonoBehaviour
     void Start()
     {
         _camera = GetComponent<Camera>();
+        SetCameraAspect();
 
     }
 
@@ -47,9 +48,9 @@ public class AspectRatio : MonoBehaviour
         }
     }
 
-    private void Update()
+    /*private void Update()
     {
         SetCameraAspect();
 
-    }
+    }*/
 }
