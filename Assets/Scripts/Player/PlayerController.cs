@@ -5,16 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private bool _isPortrait = false;
+    [Header("Jump Settings")]
     [SerializeField] private float _lateralForce = 6;
-    [SerializeField] private LayerMask _groundMask;
     [SerializeField] private float _jumpValue = 0.0f;
     [SerializeField] private float _maxJumpValue = 10;
     [SerializeField, Range(0, 10f)] private float _bounceForce = 1f;
+
+    [Header("Buttons")]
     [SerializeField] private ButtonPressed _leftButton;
     [SerializeField] private ButtonPressed _rightButton;
 
-    private float _timeFalling = 0;
-    private float _timeHurt = 0;
+    private float _timeFalling = 0f;
+    private float _timeHurt = 0f;
     private float _timeToFall = 2f;
     private float _timeToHurt = 1f;
 
@@ -45,28 +47,36 @@ public class PlayerController : MonoBehaviour
         _playerCollision = GetComponent<PlayerCollision>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //If player falls for x seconds, then it will be hurted for x seconds
-        if (!_isGrounded && _rb.velocity.y < 0)
+        if (!_isGrounded && _rb.velocity.y < 0 && !_anim.GetBool("isHurted"))
         {
             _timeFalling += Time.deltaTime;
             if (_timeFalling >= _timeToFall)
             {
                 _anim.SetBool("isHurted", true);
-                _timeFalling = 0f;
             }
         }
-        if(_anim.GetBool("isHurted") && _isGrounded)
+
+        if (_isGrounded)
         {
-            if(_timeHurt <= _timeToHurt)
+            _timeFalling = 0f;
+            if (_anim.GetBool("isHurted"))
             {
-                _timeHurt += Time.deltaTime;
-                return;
+                if (_timeHurt <= _timeToHurt)
+                {
+                    _timeHurt += Time.deltaTime;
+                    return;
+                }
+                else
+                {
+                    _anim.SetBool("isHurted", false);
+                    _anim.SetBool("hitWall", false);
+                    _timeHurt = 0f;
+                }
+
             }
-            _anim.SetBool("isHurted", false);
-            _anim.SetBool("hitWall", false);
-            _timeHurt = 0f;
         }
 
         CheckButtonPressed();
@@ -96,7 +106,7 @@ public class PlayerController : MonoBehaviour
                 1, 1);
         }
 
-        //For when the player jumps
+        //For when the player jumps at max force
         if (_jumpValue >= _maxJumpValue && _isGrounded)
         {
             float tempx = this.transform.localScale.x * _lateralForce;
@@ -111,11 +121,12 @@ public class PlayerController : MonoBehaviour
             Invoke("ResetJump", 0.2f);
         }
 
-        //For when the player jumps at max force
+        //For when the player jumps
         if (_isJumping)
         {
             if (_isGrounded)
             {
+                if(_jumpValue <= 1) _jumpValue = 1.5f;
                 _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
                 SetLastJumpForce(_jumpValue);
                 _jumpValue = 0.0f;
@@ -138,28 +149,14 @@ public class PlayerController : MonoBehaviour
         if (_leftButton.buttonPressed && _isGrounded)
         {
             transform.localScale = new Vector3(-1, 1, 1);
-            if (_isPortrait)
-            {
-                _jumpValue += 0.2f;
-            }
-            else
-            {
-                _jumpValue += 0.1f;
-            }
+            _jumpValue += 0.42f;
             _anim.SetBool("isPreJumping", true);
             return;
         }
         else if (_rightButton.buttonPressed && _isGrounded)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            if (_isPortrait)
-            {
-                _jumpValue += 0.2f;
-            }
-            else
-            {
-                _jumpValue += 0.1f;
-            }
+            _jumpValue += 0.42f;
             _anim.SetBool("isPreJumping", true);
             return;
         }

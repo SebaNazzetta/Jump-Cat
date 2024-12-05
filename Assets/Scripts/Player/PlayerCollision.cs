@@ -52,7 +52,8 @@ public class PlayerCollision : MonoBehaviour
 
         // Draw a box for ground
         Gizmos.color = Color.green;
-        Gizmos.DrawCube(new Vector2(gameObject.transform.position.x, 
+        Gizmos.DrawCube(new Vector2(gameObject.transform.position.x
+         + (_groundBoxOffset.x * transform.localScale.x), 
             gameObject.transform.position.y - _groundBoxOffset.y), _groundBoxSize);
 
         // Draw two box for ground corners
