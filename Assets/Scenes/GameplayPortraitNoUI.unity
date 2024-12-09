@@ -12757,6 +12757,7 @@ GameObject:
   - component: {fileID: 751285784}
   - component: {fileID: 751285783}
   - component: {fileID: 751285782}
+  - component: {fileID: 751285787}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12834,6 +12835,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &751285787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751285781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78c025cc0e09664e9a99bafe7688f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundFXObject: {fileID: 4337163308906513911, guid: 23d66e0b33d16a34d8ed236dc1ce045b, type: 3}
 --- !u!1 &754667280
 GameObject:
   m_ObjectHideFlags: 0
@@ -22717,78 +22731,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _wallBoxSize.x
-      value: 0.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _wallBoxSize.y
-      value: 0.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _cornerBoxSize.x
-      value: 0.58
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _cornerBoxSize.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _groundBoxSize.x
-      value: 0.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _groundBoxSize.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _groundBoxsize.x
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _groundBoxsize.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _wallBoxOffset.x
-      value: 0.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _wallBoxOffset.y
-      value: -0.09
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _cornerBoxOffset.x
-      value: -0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _cornerBoxOffset.y
-      value: 0.47
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _groundBoxOffset.x
-      value: 0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 2927306067679177791, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _groundBoxOffset.y
-      value: 0.49
-      objectReference: {fileID: 0}
-    - target: {fileID: 6728926818633870302, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: m_Size.x
-      value: 0.5667811
-      objectReference: {fileID: 0}
-    - target: {fileID: 6728926818633870302, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: m_Size.y
-      value: 0.786097
-      objectReference: {fileID: 0}
-    - target: {fileID: 6728926818633870302, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.030766934
-      objectReference: {fileID: 0}
-    - target: {fileID: 6728926818633870302, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.11192891
-      objectReference: {fileID: 0}
     - target: {fileID: 7086222779686807881, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -22830,10 +22772,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9166006342599950967, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _isPortrait
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9166006342599950967, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
       propertyPath: _leftButton
       value: 
       objectReference: {fileID: 1464807345}
@@ -22841,15 +22779,8 @@ PrefabInstance:
       propertyPath: _rightButton
       value: 
       objectReference: {fileID: 892691406}
-    - target: {fileID: 9166006342599950967, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _lateralForce
-      value: 2.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9166006342599950967, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
-      propertyPath: _maxJumpValue
-      value: 15.7
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2939815825009688492, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

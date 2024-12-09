@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Settings")]
     [SerializeField] private float _lateralForce = 6;
     [SerializeField] private float _jumpValue = 0.0f;
+    [SerializeField] private float _minJumpValue = 1.5f;
     [SerializeField] private float _maxJumpValue = 10;
     [SerializeField, Range(0, 10f)] private float _bounceForce = 1f;
 
@@ -24,6 +25,12 @@ public class PlayerController : MonoBehaviour
     {
         get => _playerCollision.IsGrounded();
     }
+
+    private bool _isRoof
+    {
+        get => _playerCollision.IsRoof();
+    }
+
     private bool _hasWallInFront
     {
         get => _playerCollision.HasWallInFront();
@@ -75,7 +82,6 @@ public class PlayerController : MonoBehaviour
                     _anim.SetBool("hitWall", false);
                     _timeHurt = 0f;
                 }
-
             }
         }
 
@@ -95,6 +101,13 @@ public class PlayerController : MonoBehaviour
                 _rb.velocity.y+0.3f);
         }
 
+
+        //For when the player touches the roof ////// deberia rebotar hacia el angulo opuesto del que viene
+        /*if (_isRoof)
+        {
+            _rb.velocity = _rb.velocity * -1;
+        }*/
+
         //For when the player touches a wall ////////queda arreglar que, si saltamos hacia una pared, estando pegado a una pared, debería empujarnos de igual manera.
         if (_rb.velocity.y != 0 && _hasWallInFront)
         {
@@ -102,8 +115,7 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector2(-_bounceForce * _rb.velocity.x,
                 _rb.velocity.y);
 
-            transform.localScale = new Vector3(-1 * transform.localScale.x,
-                1, 1);
+            transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
         }
 
         //For when the player jumps at max force
@@ -126,7 +138,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_isGrounded)
             {
-                if(_jumpValue <= 1) _jumpValue = 1.5f;
+                if(_jumpValue <= 1) _jumpValue = _minJumpValue;
                 _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
                 SetLastJumpForce(_jumpValue);
                 _jumpValue = 0.0f;
