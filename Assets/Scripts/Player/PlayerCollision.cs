@@ -10,8 +10,10 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private Vector2 _headBoxOffset;
     [SerializeField] private Vector2 _wallBoxSize;
     [SerializeField] private Vector2 _wallBoxOffset;
-    [SerializeField] private Vector2 _cornerBoxSize;
-    [SerializeField] private Vector2 _cornerBoxOffset;
+    [SerializeField] private Vector2 _backCornerBoxSize;
+    [SerializeField] private Vector2 _backCornerBoxOffset;
+    [SerializeField] private Vector2 _frontCornerBoxSize;
+    [SerializeField] private Vector2 _frontCornerBoxOffset;
     [SerializeField] private LayerMask _groundMask;
     private Animator _anim;
 
@@ -19,6 +21,7 @@ public class PlayerCollision : MonoBehaviour
     {
         _anim = GetComponentInChildren<Animator>();
     }
+
     public bool HasWallInFront()
     {
         return Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x
@@ -42,12 +45,20 @@ public class PlayerCollision : MonoBehaviour
         return isGrounded;
     }
 
-    public bool IsCorner()
+    public bool IsBackCorner()
     {
-        bool isCorner = Physics2D.OverlapBox(new Vector2((gameObject.transform.position.x
-         + (_cornerBoxOffset.x * transform.localScale.x) * -1),
-            gameObject.transform.position.y - _cornerBoxOffset.y), _cornerBoxSize, 0f, _groundMask);
-        return isCorner;
+        bool isBackCorner = Physics2D.OverlapBox(new Vector2((gameObject.transform.position.x
+         + (_backCornerBoxOffset.x * transform.localScale.x) * -1),
+            gameObject.transform.position.y - _backCornerBoxOffset.y), _backCornerBoxSize, 0f, _groundMask);
+        return isBackCorner;
+    }
+
+    public bool IsFrontCorner()
+    {
+        bool isFrontCorner = Physics2D.OverlapBox(new Vector2((gameObject.transform.position.x
+         + (_frontCornerBoxOffset.x * transform.localScale.x) * -1),
+            gameObject.transform.position.y - _frontCornerBoxOffset.y), _frontCornerBoxSize, 0f, _groundMask);
+        return isFrontCorner;
     }
 
  #if UNITY_EDITOR
@@ -71,11 +82,17 @@ public class PlayerCollision : MonoBehaviour
                     + (_headBoxOffset.x * transform.localScale.x), gameObject.transform
                             .position.y + _headBoxOffset.y), _headBoxSize);
 
-        // Draw two box for ground corners
+        // Draw a box for ground corner in back
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(new Vector2((gameObject.transform.position.x
-         + (_cornerBoxOffset.x * transform.localScale.x) * -1),
-            gameObject.transform.position.y - _cornerBoxOffset.y), _cornerBoxSize);
+         + (_backCornerBoxOffset.x * transform.localScale.x) * -1),
+            gameObject.transform.position.y - _backCornerBoxOffset.y), _backCornerBoxSize);
+
+        // Draw a box for ground corner in front
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector2((gameObject.transform.position.x
+         + (_frontCornerBoxOffset.x * transform.localScale.x) * -1),
+            gameObject.transform.position.y - _frontCornerBoxOffset.y), _frontCornerBoxSize);
     }
 
  #endif

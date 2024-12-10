@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _minJumpValue = 1.5f;
     [SerializeField] private float _maxJumpValue = 10;
     [SerializeField, Range(0, 10f)] private float _bounceForce = 1f;
+    [SerializeField] private PhysicsMaterial2D _bounceMaterial;
 
     [Header("Buttons")]
     [SerializeField] private ButtonPressed _leftButton;
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private float _timeHurt = 0f;
     private float _timeToFall = 2f;
     private float _timeToHurt = 1f;
+
+
 
     private bool _isGrounded
     {
@@ -36,9 +40,14 @@ public class PlayerController : MonoBehaviour
         get => _playerCollision.HasWallInFront();
     }
 
-    private bool _isCorner
+    private bool _isBackCorner
     {
-        get => _playerCollision.IsCorner();
+        get => _playerCollision.IsBackCorner();
+    }
+
+    private bool _isFrontCorner
+    {
+        get => _playerCollision.IsFrontCorner();
     }
 
 
@@ -52,6 +61,35 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponentInChildren<Animator>();
         _playerCollision = GetComponent<PlayerCollision>();
+    }
+
+    private void Update()
+    {
+
+        if (!_isGrounded)
+        {
+            if(_isBackCorner && _isFrontCorner)
+            {
+                return;
+            }
+
+            //For when the player stands in a corner in the back
+            if (_isBackCorner && !_isGrounded)
+            {
+                _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
+                    _rb.velocity.y + 0.3f);
+            }
+
+            //For when the player stands in a corner in the back
+            if (_isFrontCorner && !_isGrounded)
+            {
+                transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
+                _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
+                    _rb.velocity.y + 0.3f);
+            }
+        }
+
+        CheckButtonPressed();
     }
 
     void FixedUpdate()
@@ -85,28 +123,21 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        CheckButtonPressed();
+        if(_rb.velocity.y > 0 && !_isGrounded)
+        {
+            _rb.sharedMaterial = _bounceMaterial;
+        }
+        else
+        {
+            _rb.sharedMaterial = null;
+        }
         
         //For when the player touches the ground
         if (_isGrounded && _jumpValue == 0)
         {
-            _rb.velocity = new Vector2(0, 0);
+            _rb.velocity = new Vector2(0, _rb.velocity.y);
             _anim.SetBool("hitWall", false);
         }
-
-        //For when the player stands in a corner
-        if (_isCorner && !_isGrounded)
-        {
-            _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
-                _rb.velocity.y+0.3f);
-        }
-
-
-        //For when the player touches the roof ////// deberia rebotar hacia el angulo opuesto del que viene
-        /*if (_isRoof)
-        {
-            _rb.velocity = _rb.velocity * -1;
-        }*/
 
         //For when the player touches a wall ////////queda arreglar que, si saltamos hacia una pared, estando pegado a una pared, debería empujarnos de igual manera.
         if (_rb.velocity.y != 0 && _hasWallInFront)
@@ -130,6 +161,7 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector2(tempx, tempy);
             _anim.SetBool("isPreJumping", false);
             SetLastJumpForce(_jumpValue);
+            _anim.SetTrigger("Jump");
             Invoke("ResetJump", 0.2f);
         }
 
@@ -138,9 +170,10 @@ public class PlayerController : MonoBehaviour
         {
             if (_isGrounded)
             {
-                if(_jumpValue <= 1) _jumpValue = _minJumpValue;
+                if(_jumpValue != 0 && _jumpValue < _minJumpValue) _jumpValue = _minJumpValue;
                 _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
                 SetLastJumpForce(_jumpValue);
+                _anim.SetTrigger("Jump");
                 _jumpValue = 0.0f;
                 _isJumping = false;
                 _anim.SetBool("isPreJumping", false);
@@ -194,4 +227,5 @@ public class PlayerController : MonoBehaviour
     {
         return _lastJumpForce;
     }
+
 }

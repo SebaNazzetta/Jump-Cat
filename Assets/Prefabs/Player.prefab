@@ -119,10 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc8b78a3c68cc34c836a74c4c4def17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpSoundFX: {fileID: 8300000, guid: 72590e87db5634948a39bebe21d74b98, type: 3}
-  _landSoundFX: {fileID: 8300000, guid: 76968f45144a58b489053649e2791fa5, type: 3}
-  _wallHitSoundFX: {fileID: 8300000, guid: a2b549bf87a8355499d6ee95ec359b69, type: 3}
-  _hurtSoundFX: {fileID: 8300000, guid: d3ec88e62b3ff384ca0105e11e04e71d, type: 3}
+  _jumpSoundFX: {fileID: 8300000, guid: 20137c4a45c5aeb499b5b8bd0f426699, type: 3}
+  _landSoundFX: {fileID: 8300000, guid: b050a351799603f42a107859fd83c9cd, type: 3}
+  _wallHitSoundFX: {fileID: 8300000, guid: ce8fdb062616968448de136833f83906, type: 3}
+  _hurtSoundFX: {fileID: 8300000, guid: 4ab2bfb39e70ac147858108605166538, type: 3}
 --- !u!1 &1725091638257978148
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.030766934, y: -0.11192891}
+  m_Offset: {x: 0.030766934, y: -0.10253227}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -202,7 +202,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5667811, y: 0.786097}
+  m_Size: {x: 0.5667811, y: 0.7673037}
   m_EdgeRadius: 0
 --- !u!50 &6481351202165149587
 Rigidbody2D:
@@ -249,6 +249,7 @@ MonoBehaviour:
   _minJumpValue: 1.5
   _maxJumpValue: 15.7
   _bounceForce: 0.5
+  _bounceMaterial: {fileID: 6200000, guid: c613e9e33edb7d14d9ea7db133b6f480, type: 2}
   _leftButton: {fileID: 0}
   _rightButton: {fileID: 0}
 --- !u!114 &2927306067679177791
@@ -264,13 +265,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundBoxSize: {x: 0.43, y: 0.1}
-  _groundBoxOffset: {x: 0.03, y: 0.49}
+  _groundBoxOffset: {x: 0.03, y: 0.46}
   _headBoxSize: {x: 0.43, y: 0.1}
   _headBoxOffset: {x: 0.03, y: 0.25}
   _wallBoxSize: {x: 0.18, y: 0.68}
   _wallBoxOffset: {x: 0.27, y: -0.09}
-  _cornerBoxSize: {x: 0.1, y: 0.1}
-  _cornerBoxOffset: {x: 0.21, y: 0.46}
+  _backCornerBoxSize: {x: 0.12, y: 0.12}
+  _backCornerBoxOffset: {x: 0.19, y: 0.435}
+  _frontCornerBoxSize: {x: 0.12, y: 0.12}
+  _frontCornerBoxOffset: {x: -0.25, y: 0.435}
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
