@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
@@ -49,9 +50,21 @@ public class Checkpoint : MonoBehaviour
             checkpoint.GetComponent<SpriteRenderer>().sprite = checkpoint._deactivatedSprite;
             if (checkpoint == this)
             {
-                checkpoint._isCurrentCheckpoint = true;
-                checkpoint.GetComponent<SpriteRenderer>().sprite = checkpoint._activatedSprite;
+                checkpoint.ActivateCheckpoint();
+                Vector2 checkpointPosition = checkpoint.transform.position;
+                //Save the last checkpoint position in PlayerPrefs
+                string x = checkpointPosition.x.ToString(CultureInfo.InvariantCulture);
+                string y = checkpointPosition.y.ToString(CultureInfo.InvariantCulture);
+                PlayerPrefs.SetString("LastCheckpoint", $"{x};{y}");
+                PlayerPrefs.Save();
+
             }
         }
+    }
+
+    public void ActivateCheckpoint()
+    {
+        _isCurrentCheckpoint = true;
+        GetComponent<SpriteRenderer>().sprite = _activatedSprite;
     }
 }

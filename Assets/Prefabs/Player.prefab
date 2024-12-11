@@ -119,10 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc8b78a3c68cc34c836a74c4c4def17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpSoundFX: {fileID: 8300000, guid: 20137c4a45c5aeb499b5b8bd0f426699, type: 3}
-  _landSoundFX: {fileID: 8300000, guid: b050a351799603f42a107859fd83c9cd, type: 3}
-  _wallHitSoundFX: {fileID: 8300000, guid: ce8fdb062616968448de136833f83906, type: 3}
-  _hurtSoundFX: {fileID: 8300000, guid: 4ab2bfb39e70ac147858108605166538, type: 3}
+  _jumpSoundFX: {fileID: 8300000, guid: 72590e87db5634948a39bebe21d74b98, type: 3}
+  _landSoundFX: {fileID: 8300000, guid: 76968f45144a58b489053649e2791fa5, type: 3}
+  _wallHitSoundFX: {fileID: 8300000, guid: a2b549bf87a8355499d6ee95ec359b69, type: 3}
+  _hurtSoundFX: {fileID: 8300000, guid: d3ec88e62b3ff384ca0105e11e04e71d, type: 3}
 --- !u!1 &1725091638257978148
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   _isPortrait: 1
   _lateralForce: 2.7
   _jumpValue: 0
-  _minJumpValue: 1.5
+  _minJumpValue: 1.7
   _maxJumpValue: 15.7
   _bounceForce: 0.5
   _bounceMaterial: {fileID: 6200000, guid: c613e9e33edb7d14d9ea7db133b6f480, type: 2}

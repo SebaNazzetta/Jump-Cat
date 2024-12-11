@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Globalization;
 
 public class PlayerController : MonoBehaviour
 {
@@ -61,6 +62,25 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponentInChildren<Animator>();
         _playerCollision = GetComponent<PlayerCollision>();
+
+        //Get the last checkpoint position from PlayerPrefs
+        string checkpointData = PlayerPrefs.GetString("LastCheckpoint", "0;-2.63");
+        string[] splitData = checkpointData.Split(';');
+
+        float x = float.Parse(splitData[0], CultureInfo.InvariantCulture);
+        float y = float.Parse(splitData[1], CultureInfo.InvariantCulture);
+
+        Vector2 checkpointPosition = new Vector2(x, y);
+        if(checkpointPosition.y != -2.63f) FindObjectOfType<TutorialTrigger>().CloseTutorial();
+        transform.position = checkpointPosition;
+        foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
+        {
+            if((int)checkpoint.gameObject.transform.position.y == (int)checkpointPosition.y)
+            {
+                checkpoint.ActivateCheckpoint();
+                break;
+            }
+        }
     }
 
     private void Update()

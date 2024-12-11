@@ -17,7 +17,12 @@ public class TutorialTrigger : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            _tutorialPanel.SetActive(false);
+            CloseTutorial();
         }
+    }
+
+    public void CloseTutorial()
+    {
+        _tutorialPanel.SetActive(false);
     }
 }
