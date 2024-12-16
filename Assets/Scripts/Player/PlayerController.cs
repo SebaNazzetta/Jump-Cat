@@ -41,6 +41,11 @@ public class PlayerController : MonoBehaviour
         get => _playerCollision.HasWallInFront();
     }
 
+    private bool _hasWallBehind
+    {
+        get => _playerCollision.HasWallBehind();
+    }
+
     private bool _isBackCorner
     {
         get => _playerCollision.IsBackCorner();
@@ -51,6 +56,10 @@ public class PlayerController : MonoBehaviour
         get => _playerCollision.IsFrontCorner();
     }
 
+    private int _side
+    {
+        get => transform.localScale.x > 0 ? 1 : -1;
+    }
 
     private Rigidbody2D _rb;
     private bool _isJumping = false;
@@ -71,11 +80,11 @@ public class PlayerController : MonoBehaviour
         float y = float.Parse(splitData[1], CultureInfo.InvariantCulture);
 
         Vector2 checkpointPosition = new Vector2(x, y);
-        if(checkpointPosition.y != -2.63f) FindObjectOfType<TutorialTrigger>().CloseTutorial();
+        if (checkpointPosition.y != -2.63f) FindObjectOfType<TutorialTrigger>().CloseTutorial();
         transform.position = checkpointPosition;
         foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
         {
-            if((int)checkpoint.gameObject.transform.position.y == (int)checkpointPosition.y)
+            if ((int)checkpoint.gameObject.transform.position.y == (int)checkpointPosition.y)
             {
                 checkpoint.ActivateCheckpoint();
                 break;
@@ -88,24 +97,9 @@ public class PlayerController : MonoBehaviour
 
         if (!_isGrounded)
         {
-            if(_isBackCorner && _isFrontCorner)
+            if (_isBackCorner && _isFrontCorner)
             {
                 return;
-            }
-
-            //For when the player stands in a corner in the back
-            if (_isBackCorner && !_isGrounded)
-            {
-                _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
-                    _rb.velocity.y + 0.3f);
-            }
-
-            //For when the player stands in a corner in the back
-            if (_isFrontCorner && !_isGrounded)
-            {
-                transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
-                _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
-                    _rb.velocity.y + 0.3f);
             }
         }
 
@@ -143,7 +137,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(_rb.velocity.y > 0 && !_isGrounded)
+        if (_rb.velocity.y > 0 && !_isGrounded)
         {
             _rb.sharedMaterial = _bounceMaterial;
         }
@@ -151,7 +145,7 @@ public class PlayerController : MonoBehaviour
         {
             _rb.sharedMaterial = null;
         }
-        
+
         //For when the player touches the ground
         if (_isGrounded && _jumpValue == 0)
         {
@@ -159,14 +153,19 @@ public class PlayerController : MonoBehaviour
             _anim.SetBool("hitWall", false);
         }
 
-        //For when the player touches a wall ////////queda arreglar que, si saltamos hacia una pared, estando pegado a una pared, debería empujarnos de igual manera.
-        if (_rb.velocity.y != 0 && _hasWallInFront)
-        {
-            _anim.SetBool("hitWall", true);
-            _rb.velocity = new Vector2(-_bounceForce * _rb.velocity.x,
-                _rb.velocity.y);
 
-            transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
+        // Handle wall collision and bouncing
+        if (_rb.velocity.y != 0)
+        {
+            if (_hasWallInFront)
+            {
+                _anim.SetBool("hitWall", true);
+                _rb.velocity = new Vector2(-_bounceForce * 
+                    _rb.velocity.x, _rb.velocity.y);
+
+                Flip();
+            }
+
         }
 
         //For when the player jumps at max force
@@ -174,7 +173,7 @@ public class PlayerController : MonoBehaviour
         {
             float tempx = this.transform.localScale.x * _lateralForce;
             float tempy = _jumpValue;
-            if(_leftButton.buttonPressed && _rightButton.buttonPressed)
+            if (_leftButton.buttonPressed && _rightButton.buttonPressed)
             {
                 tempx = 0;
             }
@@ -190,7 +189,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_isGrounded)
             {
-                if(_jumpValue != 0 && _jumpValue < _minJumpValue) _jumpValue = _minJumpValue;
+                if (_jumpValue != 0 && _jumpValue < _minJumpValue) _jumpValue = _minJumpValue;
                 _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
                 SetLastJumpForce(_jumpValue);
                 _anim.SetTrigger("Jump");
@@ -213,14 +212,14 @@ public class PlayerController : MonoBehaviour
     {
         if (_leftButton.buttonPressed && _isGrounded)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            Flip(-1);
             _jumpValue += 0.42f;
             _anim.SetBool("isPreJumping", true);
             return;
         }
         else if (_rightButton.buttonPressed && _isGrounded)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            Flip(1);
             _jumpValue += 0.42f;
             _anim.SetBool("isPreJumping", true);
             return;
@@ -246,6 +245,16 @@ public class PlayerController : MonoBehaviour
     public float GetLastJumpForce()
     {
         return _lastJumpForce;
+    }
+
+    private void Flip()
+    {
+        transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
+    }
+
+    private void Flip(int x)
+    {
+        transform.localScale = new Vector3(x, 1, 1);
     }
 
 }

@@ -17,7 +17,7 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private LayerMask _groundMask;
     private Animator _anim;
 
-    private void Awake() 
+    private void Awake()
     {
         _anim = GetComponentInChildren<Animator>();
     }
@@ -26,6 +26,13 @@ public class PlayerCollision : MonoBehaviour
     {
         return Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x
         + (_wallBoxOffset.x * transform.localScale.x), gameObject.transform
+        .position.y + _wallBoxOffset.y), _wallBoxSize, 0f, _groundMask);
+    }
+
+    public bool HasWallBehind()
+    {
+        return Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x
+        + (_wallBoxOffset.x * transform.localScale.x) * -1, gameObject.transform
         .position.y + _wallBoxOffset.y), _wallBoxSize, 0f, _groundMask);
     }
 
@@ -61,13 +68,18 @@ public class PlayerCollision : MonoBehaviour
         return isFrontCorner;
     }
 
- #if UNITY_EDITOR
+#if UNITY_EDITOR
      private void OnDrawGizmosSelected()
      {
         // Draw a box for walls
          Gizmos.color = Color.green;
          Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x
          + (_wallBoxOffset.x * transform.localScale.x), gameObject.transform
+         .position.y + _wallBoxOffset.y), _wallBoxSize);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x
+         + (_wallBoxOffset.x * transform.localScale.x) * -1, gameObject.transform
          .position.y + _wallBoxOffset.y), _wallBoxSize);
 
         // Draw a box for ground
@@ -95,5 +107,5 @@ public class PlayerCollision : MonoBehaviour
             gameObject.transform.position.y - _frontCornerBoxOffset.y), _frontCornerBoxSize);
     }
 
- #endif
+#endif
 }
