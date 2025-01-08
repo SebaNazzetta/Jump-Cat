@@ -10,6 +10,7 @@ public class Checkpoint : MonoBehaviour
     private BoxCollider2D _boxCollider2D;
     [SerializeField] private Sprite _deactivatedSprite;
     [SerializeField] private Sprite _activatedSprite;
+    [SerializeField] private GameObject _deadZone;
 
     private CheckpointManager _checkpointManager;
     private bool _isPlayerGrounded
@@ -47,6 +48,7 @@ public class Checkpoint : MonoBehaviour
         foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
         {
             checkpoint._isCurrentCheckpoint = false;
+            if (checkpoint._deadZone != null) checkpoint._deadZone.SetActive(false);
             checkpoint.GetComponent<SpriteRenderer>().sprite = checkpoint._deactivatedSprite;
             if (checkpoint == this)
             {
@@ -66,5 +68,6 @@ public class Checkpoint : MonoBehaviour
     {
         _isCurrentCheckpoint = true;
         GetComponent<SpriteRenderer>().sprite = _activatedSprite;
+        if(_deadZone != null) _deadZone.SetActive(true);
     }
 }
