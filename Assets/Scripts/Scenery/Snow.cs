@@ -17,7 +17,6 @@ public class Snow : MonoBehaviour
         }
 
         _windLayer = _winds[0].colliderMask;
-        Debug.Log(_windLayer);
     }
 
     private void OnTriggerEnter2D(Collider2D other) 

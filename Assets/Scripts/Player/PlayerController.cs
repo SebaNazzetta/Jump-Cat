@@ -18,13 +18,13 @@ public class PlayerController : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private ButtonPressed _leftButton;
     [SerializeField] private ButtonPressed _rightButton;
+    [SerializeField] private GameObject _jumpVFX;
+    [SerializeField] private Transform _jumpVFXPosition;
 
     private float _timeFalling = 0f;
     private float _timeHurt = 0f;
     private float _timeToFall = 2f;
     private float _timeToHurt = 1f;
-
-
 
     private bool _isGrounded
     {
@@ -71,11 +71,11 @@ public class PlayerController : MonoBehaviour
         float y = float.Parse(splitData[1], CultureInfo.InvariantCulture);
 
         Vector2 checkpointPosition = new Vector2(x, y);
-        if(checkpointPosition.y != -2.63f) FindObjectOfType<TutorialTrigger>().CloseTutorial();
+        if (checkpointPosition.y != -2.63f) FindObjectOfType<TutorialTrigger>().CloseTutorial();
         transform.position = checkpointPosition;
         foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
         {
-            if((int)checkpoint.gameObject.transform.position.y == (int)checkpointPosition.y)
+            if ((int)checkpoint.gameObject.transform.position.y == (int)checkpointPosition.y)
             {
                 checkpoint.ActivateCheckpoint();
                 break;
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
         if (!_isGrounded)
         {
-            if(_isBackCorner && _isFrontCorner)
+            if (_isBackCorner && _isFrontCorner)
             {
                 return;
             }
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(_rb.velocity.y > 0 && !_isGrounded)
+        if (_rb.velocity.y > 0 && !_isGrounded)
         {
             _rb.sharedMaterial = _bounceMaterial;
         }
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
         {
             _rb.sharedMaterial = null;
         }
-        
+
         //For when the player touches the ground
         if (_isGrounded && _jumpValue == 0)
         {
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
             _anim.SetBool("hitWall", false);
         }
 
-        //For when the player touches a wall ////////queda arreglar que, si saltamos hacia una pared, estando pegado a una pared, debería empujarnos de igual manera.
+        //For when the player touches a wall 
         if (_rb.velocity.y != 0 && _hasWallInFront)
         {
             _anim.SetBool("hitWall", true);
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
         {
             float tempx = this.transform.localScale.x * _lateralForce;
             float tempy = _jumpValue;
-            if(_leftButton.buttonPressed && _rightButton.buttonPressed)
+            if (_leftButton.buttonPressed && _rightButton.buttonPressed)
             {
                 tempx = 0;
             }
@@ -183,6 +183,7 @@ public class PlayerController : MonoBehaviour
             SetLastJumpForce(_jumpValue);
             _anim.SetTrigger("Jump");
             Invoke("ResetJump", 0.2f);
+            StartCoroutine(InstantiateJumpVFX());
         }
 
         //For when the player jumps
@@ -190,13 +191,14 @@ public class PlayerController : MonoBehaviour
         {
             if (_isGrounded)
             {
-                if(_jumpValue != 0 && _jumpValue < _minJumpValue) _jumpValue = _minJumpValue;
+                if (_jumpValue != 0 && _jumpValue < _minJumpValue) _jumpValue = _minJumpValue;
                 _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
                 SetLastJumpForce(_jumpValue);
                 _anim.SetTrigger("Jump");
                 _jumpValue = 0.0f;
                 _isJumping = false;
                 _anim.SetBool("isPreJumping", false);
+                StartCoroutine(InstantiateJumpVFX());
             }
         }
         _anim.SetFloat("VerticalVelocity", _rb.velocity.y);
@@ -246,6 +248,19 @@ public class PlayerController : MonoBehaviour
     public float GetLastJumpForce()
     {
         return _lastJumpForce;
+    }
+
+    private IEnumerator InstantiateJumpVFX()
+    {
+        GameObject jumpVFX = Instantiate(_jumpVFX, _jumpVFXPosition.position, 
+            Quaternion.identity);
+        
+        Animator jumpVFXAnim = jumpVFX.GetComponent<Animator>();
+
+        yield return new WaitUntil(() => jumpVFXAnim
+            .GetCurrentAnimatorStateInfo(0).normalizedTime > 1);
+
+        Destroy(jumpVFX);
     }
 
 }
