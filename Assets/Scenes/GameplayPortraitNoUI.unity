@@ -70180,6 +70180,7 @@ MonoBehaviour:
   checkpointsActive: 1
   lastCheckpointPosition: {x: 0, y: 0, z: 0}
   checkpointUI: {fileID: 1799002698}
+  _timeMoving: 1
 --- !u!114 &751285783
 MonoBehaviour:
   m_ObjectHideFlags: 0

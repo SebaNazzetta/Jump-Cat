@@ -18,8 +18,11 @@ public class PlayerController : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private ButtonPressed _leftButton;
     [SerializeField] private ButtonPressed _rightButton;
+
+    [Header("VFX")]
     [SerializeField] private GameObject _jumpVFX;
     [SerializeField] private Transform _jumpVFXPosition;
+    public GameObject particleOnDeath;
 
     private float _timeFalling = 0f;
     private float _timeHurt = 0f;
