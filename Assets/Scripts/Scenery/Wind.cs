@@ -19,21 +19,18 @@ public class Wind : MonoBehaviour
 
     private IEnumerator ChangeWind()
     {
-        while (true)
-        {
-            float currentForce = _areaEffector2D.forceMagnitude;
+        float currentForce = _areaEffector2D.forceMagnitude;
 
-            yield return _changeTime;
+        yield return _changeTime;
 
-            _areaEffector2D.forceMagnitude = 0;
+        _areaEffector2D.forceMagnitude = 0;
 
-            yield return _waitTime;
+        yield return _waitTime;
 
-            _areaEffector2D.forceMagnitude = currentForce;
-            _areaEffector2D.forceMagnitude *= -1;
+        _areaEffector2D.forceMagnitude = currentForce;
+        _areaEffector2D.forceMagnitude *= -1;
 
-            StartCoroutine(ChangeWind());
-        }
+        StartCoroutine(ChangeWind());
     }
 
 }
