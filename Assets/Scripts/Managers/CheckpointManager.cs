@@ -25,7 +25,8 @@ public class CheckpointManager : MonoBehaviour
         //ACAAAAA VAA LAA ADDD
         //ACAAAAA VAA LAA ADDD
         lastCheckpointPosition = player.transform.position;
-        _checkpoint.SetCurrentCheckpoint();
+        if (_checkpoint != null)
+            _checkpoint.SetCurrentCheckpoint();
         CloseCheckpointUI();
     }
 
@@ -47,6 +48,8 @@ public class CheckpointManager : MonoBehaviour
 
     private IEnumerator MovePlayerToCheckpoint()
     {
+        var paraboleForce = 1f;
+        var paraboleVariance = Random.Range(1f, 2f);
         var particleObj = player.GetComponent<PlayerController>()
             .particleOnDeath;
         var playerSR = player.GetComponentInChildren<SpriteRenderer>();
@@ -54,25 +57,38 @@ public class CheckpointManager : MonoBehaviour
         particleObj.SetActive(true);
         playerSR.enabled = false;
 
+        Vector3 startPosition = player.transform.position;
+
+        bool goingRight = lastCheckpointPosition.x > startPosition.x;
+
+        var curveMove = goingRight ?
+            -1 * paraboleForce * paraboleVariance :
+            +1 * paraboleForce * paraboleVariance;
+
         var t = 0f;
-        Vector3 lastPosition = player.transform.position;
-
-        //Agregar un vector 3 con el x modificado para la parabola y hacer un lerp
-
-        while(t < _timeMoving)
+        while (t < _timeMoving)
         {
             t += Time.deltaTime;
-            player.transform.position = Vector3.Lerp(lastPosition, 
-                lastCheckpointPosition, t / _timeMoving);
+            var elapsedTime = t / _timeMoving;
+
+            var y = Mathf.Lerp(startPosition.y, lastCheckpointPosition.y, 
+                elapsedTime);
+
+            var x = Mathf.Lerp(startPosition.x, lastCheckpointPosition.x, 
+                elapsedTime);
+            x += curveMove * Mathf.Sin(elapsedTime * Mathf.PI);
+
+            player.transform.position = new Vector3(x, y, 0);
             yield return null;
         }
 
-
         player.transform.position = lastCheckpointPosition;
 
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.5f);
 
         playerSR.enabled = true;
+
+        yield return new WaitForSeconds(1f);
         particleObj.SetActive(false);
     }
 }
