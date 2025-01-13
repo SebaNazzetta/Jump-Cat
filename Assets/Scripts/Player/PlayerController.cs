@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             if ((int)checkpoint.gameObject.transform.position.y == (int)checkpointPosition.y)
             {
+                FindObjectOfType<CheckpointManager>().lastCheckpointPosition = transform.position;
                 checkpoint.ActivateCheckpoint();
                 break;
             }
