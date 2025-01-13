@@ -21,9 +21,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("VFX")]
     [SerializeField] private GameObject _jumpVFX;
+    [SerializeField] private GameObject _bigJumpVFX;
     [SerializeField] private Transform _jumpVFXPosition;
+    [SerializeField] private Transform _bigJumpVFXPosition;
     public GameObject particleOnDeath;
-
     private float _timeFalling = 0f;
     private float _timeHurt = 0f;
     private float _timeToFall = 2f;
@@ -53,12 +54,12 @@ public class PlayerController : MonoBehaviour
     {
         get => _playerCollision.IsFrontCorner();
     }
-
-
     private Rigidbody2D _rb;
     private bool _isJumping = false;
     private Animator _anim;
     private PlayerCollision _playerCollision;
+    private bool _playedVFXOnce;
+    private bool _waitingTilGrounded;
 
     void Awake()
     {
@@ -124,6 +125,11 @@ public class PlayerController : MonoBehaviour
             if (_timeFalling >= _timeToFall)
             {
                 _anim.SetBool("isHurted", true);
+                _playedVFXOnce = false;
+            }
+            if(!_waitingTilGrounded)
+            {
+                StartCoroutine(WaitTilGrounded());
             }
         }
 
@@ -135,6 +141,11 @@ public class PlayerController : MonoBehaviour
                 if (_timeHurt <= _timeToHurt)
                 {
                     _timeHurt += Time.deltaTime;
+                    if (!_playedVFXOnce)
+                    {
+                        _playedVFXOnce = true;
+                        StartCoroutine(InstantiateJumpVFX(true));
+                    }
                     return;
                 }
                 else
@@ -186,7 +197,7 @@ public class PlayerController : MonoBehaviour
             SetLastJumpForce(_jumpValue);
             _anim.SetTrigger("Jump");
             Invoke("ResetJump", 0.2f);
-            StartCoroutine(InstantiateJumpVFX());
+            StartCoroutine(InstantiateJumpVFX(true));
         }
 
         //For when the player jumps
@@ -253,17 +264,28 @@ public class PlayerController : MonoBehaviour
         return _lastJumpForce;
     }
 
-    private IEnumerator InstantiateJumpVFX()
+    private IEnumerator InstantiateJumpVFX(bool big = false)
     {
-        GameObject jumpVFX = Instantiate(_jumpVFX, _jumpVFXPosition.position, 
+        GameObject vfx = big ? _bigJumpVFX : _jumpVFX;
+        Transform vfxPosition = big ? _bigJumpVFXPosition : _jumpVFXPosition;
+
+        GameObject jumpVFX = Instantiate(vfx, vfxPosition.position,
             Quaternion.identity);
-        
+
         Animator jumpVFXAnim = jumpVFX.GetComponent<Animator>();
 
         yield return new WaitUntil(() => jumpVFXAnim
             .GetCurrentAnimatorStateInfo(0).normalizedTime > 1);
 
         Destroy(jumpVFX);
+    }
+
+    private IEnumerator WaitTilGrounded()
+    {
+        _waitingTilGrounded = true;
+        yield return new WaitUntil(() => _isGrounded);
+        StartCoroutine(InstantiateJumpVFX());
+        _waitingTilGrounded = false;
     }
 
 }
