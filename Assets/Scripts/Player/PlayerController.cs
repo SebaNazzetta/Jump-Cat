@@ -60,11 +60,14 @@ public class PlayerController : MonoBehaviour
     private PlayerCollision _playerCollision;
     private bool _playedVFXOnce;
     private bool _waitingTilGrounded;
+    private SpriteRenderer _spriteRenderer;
+
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponentInChildren<Animator>();
+        _spriteRenderer = _anim.GetComponent<SpriteRenderer>();
         _playerCollision = GetComponent<PlayerCollision>();
 
         //Get the last checkpoint position from PlayerPrefs
@@ -266,6 +269,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator InstantiateJumpVFX(bool big = false)
     {
+        if(!_spriteRenderer.enabled)yield break;
+
         GameObject vfx = big ? _bigJumpVFX : _jumpVFX;
         Transform vfxPosition = big ? _bigJumpVFXPosition : _jumpVFXPosition;
 
@@ -275,7 +280,8 @@ public class PlayerController : MonoBehaviour
         Animator jumpVFXAnim = jumpVFX.GetComponent<Animator>();
 
         yield return new WaitUntil(() => jumpVFXAnim
-            .GetCurrentAnimatorStateInfo(0).normalizedTime > 1);
+            .GetCurrentAnimatorStateInfo(0).normalizedTime > 1 ||
+            !_spriteRenderer.enabled);
 
         Destroy(jumpVFX);
     }
