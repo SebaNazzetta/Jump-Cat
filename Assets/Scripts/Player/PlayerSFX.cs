@@ -15,25 +15,25 @@ public class PlayerSFX : MonoBehaviour
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    public void PlayJumpSoundFX()
+    private void PlayJumpSoundFX()
     {
         if (!_spriteRenderer.enabled) return;
         SoundFXManager.instance.PlaySoundFXClip(_jumpSoundFX, transform, 1f);
     }
 
-    public void PlayLandSoundFX()
+    private void PlayLandSoundFX()
     {
         if (!_spriteRenderer.enabled) return;
         SoundFXManager.instance.PlaySoundFXClip(_landSoundFX, transform, 1f);
     }
 
-    public void PlayWallHitSoundFX()
+    private void PlayWallHitSoundFX()
     {
         if (!_spriteRenderer.enabled) return;
         SoundFXManager.instance.PlaySoundFXClip(_wallHitSoundFX, transform, 1f);
     }
 
-    public void PlayHurtSoundFX()
+    private void PlayHurtSoundFX()
     {
         if (!_spriteRenderer.enabled) return;
         SoundFXManager.instance.PlaySoundFXClip(_hurtSoundFX, transform, 1f);
