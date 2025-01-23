@@ -9,6 +9,7 @@ public class DeadZone : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             FindObjectOfType<CheckpointManager>().LoadLastCheckpoint();
+            FindObjectOfType<CheckpointManager>().DecreaseLives();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,10 +13,15 @@ public class CheckpointManager : MonoBehaviour
     public GameObject checkpointUI;
     [Tooltip("Time to move the player to the checkpoint")]
     [SerializeField, Range(0.1f, 10)] private float _timeMoving = 1f;
+    private const int MAX_LIVES = 9;
+    public int lives = 0;
+    public TMP_Text livesText;
 
     private void Start()
     {
         player = GameObject.FindObjectOfType<PlayerController>().gameObject;
+        lives = PlayerPrefs.GetInt("Lives");
+        UpdateLivesTMP();
         CloseCheckpointUI();
     }
 
@@ -28,6 +34,7 @@ public class CheckpointManager : MonoBehaviour
         if (_checkpoint != null)
             _checkpoint.SetCurrentCheckpoint();
         CloseCheckpointUI();
+        SetLivesToMax();
     }
 
     public void LoadLastCheckpoint()
@@ -90,5 +97,30 @@ public class CheckpointManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         particleObj.SetActive(false);
+    }
+
+    public void SetLivesToMax()
+    {
+        lives = MAX_LIVES;
+        UpdateLivesTMP();
+    }
+
+    public void DecreaseLives()
+    {
+        lives--;
+        UpdateLivesTMP();
+        if (lives <= 0)
+        {
+            _checkpoint.DeactivateCheckpoint();
+            PlayerPrefs.SetString("LastCheckpoint", $"{0};{-2.63}");
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void UpdateLivesTMP()
+    {
+        PlayerPrefs.SetInt("Lives", lives);
+        PlayerPrefs.Save();
+        livesText.text = lives.ToString();
     }
 }

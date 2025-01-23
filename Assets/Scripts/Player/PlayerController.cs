@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
     private bool _playedVFXOnce;
     private bool _waitingTilGrounded;
     private SpriteRenderer _spriteRenderer;
+    private Vector2 _checkpointPosition;
 
 
     void Awake()
@@ -73,16 +74,18 @@ public class PlayerController : MonoBehaviour
         //Get the last checkpoint position from PlayerPrefs
         string checkpointData = PlayerPrefs.GetString("LastCheckpoint", "0;-2.63");
         string[] splitData = checkpointData.Split(';');
-
         float x = float.Parse(splitData[0], CultureInfo.InvariantCulture);
         float y = float.Parse(splitData[1], CultureInfo.InvariantCulture);
+        _checkpointPosition = new Vector2(x, y);
+        if (_checkpointPosition.y != -2.63f) FindObjectOfType<TutorialTrigger>().CloseTutorial();
+        transform.position = _checkpointPosition;
 
-        Vector2 checkpointPosition = new Vector2(x, y);
-        if (checkpointPosition.y != -2.63f) FindObjectOfType<TutorialTrigger>().CloseTutorial();
-        transform.position = checkpointPosition;
+    }
+    private void Start()
+    {
         foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
         {
-            if ((int)checkpoint.gameObject.transform.position.y == (int)checkpointPosition.y)
+            if ((int)checkpoint.gameObject.transform.position.y == (int)_checkpointPosition.y)
             {
                 FindObjectOfType<CheckpointManager>().lastCheckpointPosition = transform.position;
                 checkpoint.ActivateCheckpoint();

@@ -47,9 +47,7 @@ public class Checkpoint : MonoBehaviour
     {
         foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
         {
-            checkpoint._isCurrentCheckpoint = false;
-            if (checkpoint._deadZone != null) checkpoint._deadZone.SetActive(false);
-            checkpoint.GetComponent<SpriteRenderer>().sprite = checkpoint._deactivatedSprite;
+            checkpoint.DeactivateCheckpoint();
             if (checkpoint == this)
             {
                 checkpoint.ActivateCheckpoint();
@@ -69,5 +67,12 @@ public class Checkpoint : MonoBehaviour
         _isCurrentCheckpoint = true;
         GetComponent<SpriteRenderer>().sprite = _activatedSprite;
         if(_deadZone != null) _deadZone.SetActive(true);
+    }
+
+    public void DeactivateCheckpoint()
+    {
+        _isCurrentCheckpoint = false;
+        GetComponent<SpriteRenderer>().sprite = _deactivatedSprite;
+        if (_deadZone != null) _deadZone.SetActive(false);
     }
 }
