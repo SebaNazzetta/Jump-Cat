@@ -27,9 +27,6 @@ public class CheckpointManager : MonoBehaviour
 
     public void SaveCurrentPosition()
     {
-        //ACAAAAA VAA LAA ADDD
-        //ACAAAAA VAA LAA ADDD
-        //ACAAAAA VAA LAA ADDD
         lastCheckpointPosition = player.transform.position;
         if (_checkpoint != null)
             _checkpoint.SetCurrentCheckpoint();

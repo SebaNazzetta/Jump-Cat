@@ -770,7 +770,8 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Unity Ads: 1
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -790,11 +791,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: eeeaeadb-91a8-4a52-862a-adcf217e4eb1
+  cloudProjectId: 9a8f700a-2ced-44c7-a63f-3f8ee9f59226
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Jump Project
-  organizationId: fred0
+  projectName: Jump Cat
+  organizationId: genaro-cravero
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
