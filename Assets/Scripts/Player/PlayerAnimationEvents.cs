@@ -13,5 +13,8 @@ public class PlayerAnimationEvents : MonoBehaviour
     private void ShakeCamera()
     {
         _cameraManager.Shake();
+        FindObjectOfType<SettingsManager>().DefaultVibration();
     }
+
+
 }

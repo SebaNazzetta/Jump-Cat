@@ -23,6 +23,6 @@ public class TutorialTrigger : MonoBehaviour
 
     public void CloseTutorial()
     {
-        _tutorialPanel.SetActive(false);
+        if(_tutorialPanel.activeSelf) _tutorialPanel.SetActive(false);
     }
 }

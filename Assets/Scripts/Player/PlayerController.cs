@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
         _playerCollision = GetComponent<PlayerCollision>();
 
         //Get the last checkpoint position from PlayerPrefs
-        string checkpointData = PlayerPrefs.GetString("LastCheckpoint", "0;-2.63");
+        string checkpointData = PlayerPrefs.GetString("LastCheckpoint", "0;-2.67");
         string[] splitData = checkpointData.Split(';');
         float x = float.Parse(splitData[0], CultureInfo.InvariantCulture);
         float y = float.Parse(splitData[1], CultureInfo.InvariantCulture);
