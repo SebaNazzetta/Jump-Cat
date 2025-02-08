@@ -63,6 +63,7 @@ public class CheckpointManager : MonoBehaviour
 
         particleObj.SetActive(true);
         playerSR.enabled = false;
+        playerSR.color = new Color(1, 1, 1, 0f);
 
         Vector3 startPosition = player.transform.position;
 
@@ -94,9 +95,24 @@ public class CheckpointManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         playerSR.enabled = true;
+        StartCoroutine(FadeInSprite(playerSR));
 
         yield return new WaitForSeconds(1f);
         particleObj.SetActive(false);
+    }
+
+    private IEnumerator FadeInSprite(SpriteRenderer spriteRenderer)
+    {
+        var t = 0f;
+        var speed = 1.5f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * speed;
+            spriteRenderer.color = new Color(1, 1, 1, t);
+            yield return null;
+        }
+
+        spriteRenderer.color = new Color(1, 1, 1, 1);
     }
 
     public void SetLivesToMax()
@@ -123,4 +139,5 @@ public class CheckpointManager : MonoBehaviour
         PlayerPrefs.Save();
         livesText.text = lives.ToString();
     }
+    
 }
