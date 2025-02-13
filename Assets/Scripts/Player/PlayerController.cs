@@ -131,8 +131,18 @@ public class PlayerController : MonoBehaviour
             _timeFalling += Time.deltaTime;
             if (_timeFalling >= _timeToFall)
             {
-                _anim.SetBool("isHurted", true);
-                _playedVFXOnce = false;
+                if(_spriteRenderer.enabled)
+                {
+                    _anim.SetBool("isHurted", true);
+                    _playedVFXOnce = false;
+                }
+                else
+                {
+                    _playedVFXOnce = true;
+                    _anim.SetBool("isHurted", false);
+                    _anim.SetBool("hitWall", false);
+                    _timeHurt = 0f;
+                }
             }
             if(!_waitingTilGrounded)
             {

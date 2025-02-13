@@ -127,7 +127,8 @@ public class CheckpointManager : MonoBehaviour
         UpdateLivesTMP();
         if (lives <= 0)
         {
-            _checkpoint.DeactivateCheckpoint();
+            if(_checkpoint != null)
+                _checkpoint.DeactivateCheckpoint();
             PlayerPrefs.SetString("LastCheckpoint", $"{0};{-2.67}");
             PlayerPrefs.Save();
         }
