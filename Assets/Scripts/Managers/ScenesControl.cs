@@ -5,20 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class ScenesControl : MonoBehaviour
 {
-    public void PortraitScene()
+    public void World1GameplayScene()
     {
-        SceneManager.LoadScene("GameplayPortrait");
+        SceneManager.LoadScene("1_World_Gameplay");
     }
 
-    public void PortraitNoUIScene()
-    {
-        SceneManager.LoadScene("GameplayPortraitNoUI");
-    }
-
-    public void LandscapeScene()
-    {
-        SceneManager.LoadScene("GameplayLandscape");
-    }
 
     public void MainMenu()
     {
