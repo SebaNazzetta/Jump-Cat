@@ -414,7 +414,11 @@ MonoBehaviour:
   _frontCornerBoxOffset: {x: -0.25, y: 0.435}
   _groundMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
+  _iceMask:
+    serializedVersion: 2
+    m_Bits: 128
+  isOnIce: 0
 --- !u!1 &4081148589103000164
 GameObject:
   m_ObjectHideFlags: 0

@@ -186,7 +186,8 @@ public class PlayerController : MonoBehaviour
         //For when the player touches the ground
         if (_isGrounded && _jumpValue == 0)
         {
-            _rb.velocity = new Vector2(0, _rb.velocity.y);
+            var xVelocity = _playerCollision.isOnIce ? _rb.velocity.x : 0;
+            _rb.velocity = new Vector2(xVelocity, _rb.velocity.y);
             _anim.SetBool("hitWall", false);
         }
 

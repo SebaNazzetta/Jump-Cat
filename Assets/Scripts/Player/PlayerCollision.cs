@@ -15,7 +15,9 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] private Vector2 _frontCornerBoxSize;
     [SerializeField] private Vector2 _frontCornerBoxOffset;
     [SerializeField] private LayerMask _groundMask;
+    [SerializeField] private LayerMask _iceMask;
     private Animator _anim;
+    [HideInInspector] public bool isOnIce;
 
     private void Awake() 
     {
@@ -40,7 +42,10 @@ public class PlayerCollision : MonoBehaviour
     {
         bool isGrounded = Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x,
             gameObject.transform.position.y - _groundBoxOffset.y), _groundBoxSize, 0f, _groundMask);
-
+            
+        isOnIce = Physics2D.OverlapBox(new Vector2(gameObject.transform.position.x,
+        gameObject.transform.position.y - _groundBoxOffset.y), _groundBoxSize, 0f, _iceMask);
+        
         _anim.SetBool("isGrounded", isGrounded);
         return isGrounded;
     }
