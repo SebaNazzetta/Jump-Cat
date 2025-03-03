@@ -62,7 +62,8 @@ public class PlayerController : MonoBehaviour
     private bool _waitingTilGrounded;
     private SpriteRenderer _spriteRenderer;
     private Vector2 _checkpointPosition;
-
+    private bool _releasedJump = false;
+    private bool _jumpedWithThisButton = false;
 
     void Awake()
     {
@@ -213,6 +214,7 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector2(tempx, tempy);
             _anim.SetBool("isPreJumping", false);
             SetLastJumpForce(_jumpValue);
+            _jumpedWithThisButton = true;
             _anim.SetTrigger("Jump");
             Invoke("ResetJump", 0.2f);
             StartCoroutine(InstantiateJumpVFX(true));
@@ -226,6 +228,7 @@ public class PlayerController : MonoBehaviour
                 if (_jumpValue != 0 && _jumpValue < _minJumpValue) _jumpValue = _minJumpValue;
                 _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
                 SetLastJumpForce(_jumpValue);
+                _jumpedWithThisButton = true;
                 _anim.SetTrigger("Jump");
                 _jumpValue = 0.0f;
                 _isJumping = false;
@@ -245,24 +248,30 @@ public class PlayerController : MonoBehaviour
 
     public void CheckButtonPressed()
     {
-        if (_leftButton.buttonPressed && _isGrounded)
+        if(!_jumpedWithThisButton)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-            _jumpValue += 0.42f;
-            _anim.SetBool("isPreJumping", true);
-            return;
-        }
-        else if (_rightButton.buttonPressed && _isGrounded)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-            _jumpValue += 0.42f;
-            _anim.SetBool("isPreJumping", true);
-            return;
+            if (_leftButton.buttonPressed && _isGrounded)
+            {
+                _releasedJump = false;
+                transform.localScale = new Vector3(-1, 1, 1);
+                _jumpValue += 0.42f;
+                _anim.SetBool("isPreJumping", true);
+                return;
+            }
+            else if (_rightButton.buttonPressed && _isGrounded)
+            {
+                _releasedJump = false;
+                transform.localScale = new Vector3(1, 1, 1);
+                _jumpValue += 0.42f;
+                _anim.SetBool("isPreJumping", true);
+                return;
+            }
         }
 
         if (!_leftButton.buttonPressed && !_rightButton.buttonPressed)
         {
-
+            _releasedJump = true;
+            _jumpedWithThisButton = false;
             _anim.SetBool("isPreJumping", false);
             if (_jumpValue > 0)
             {
