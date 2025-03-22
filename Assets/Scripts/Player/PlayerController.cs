@@ -54,6 +54,12 @@ public class PlayerController : MonoBehaviour
     {
         get => _playerCollision.IsFrontCorner();
     }
+    private bool _canJump
+    {
+        get => _spriteRenderer.enabled && !_anim.GetCurrentAnimatorStateInfo(0)
+            .IsName("Player_Hurt") && !_anim.GetBool("isHurted"); 
+    }
+    
     private Rigidbody2D _rb;
     private bool _isJumping = false;
     private Animator _anim;
@@ -133,7 +139,7 @@ public class PlayerController : MonoBehaviour
             _timeFalling += Time.deltaTime;
             if (_timeFalling >= _timeToFall)
             {
-                if(_spriteRenderer.enabled)
+                if(_canJump)
                 {
                     _anim.SetBool("isHurted", true);
                     _catIcon.SetTrigger("Hurt");
@@ -223,7 +229,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //For when the player jumps
-        if (_isJumping)
+        if (_isJumping && _canJump)
         {
             if (_isGrounded)
             {
@@ -250,6 +256,12 @@ public class PlayerController : MonoBehaviour
 
     public void CheckButtonPressed()
     {
+        if(!_canJump)
+        {
+            _releasedJump = false;
+            _jumpedWithThisButton = true;
+            return;
+        }
         if(!_jumpedWithThisButton)
         {
             if (_leftButton.buttonPressed && _isGrounded)
@@ -295,7 +307,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator InstantiateJumpVFX(bool big = false)
     {
-        if(!_spriteRenderer.enabled)yield break;
+        if(!_canJump)yield break;
 
         GameObject vfx = big ? _bigJumpVFX : _jumpVFX;
         Transform vfxPosition = big ? _bigJumpVFXPosition : _jumpVFXPosition;
@@ -307,7 +319,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitUntil(() => jumpVFXAnim
             .GetCurrentAnimatorStateInfo(0).normalizedTime > 1 ||
-            !_spriteRenderer.enabled);
+            !_canJump);
 
         Destroy(jumpVFX);
     }
@@ -320,4 +332,5 @@ public class PlayerController : MonoBehaviour
         _waitingTilGrounded = false;
     }
 
+    
 }
