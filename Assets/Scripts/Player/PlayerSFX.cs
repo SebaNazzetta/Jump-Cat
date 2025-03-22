@@ -8,6 +8,7 @@ public class PlayerSFX : MonoBehaviour
     [SerializeField] private AudioClip _landSoundFX;
     [SerializeField] private AudioClip _wallHitSoundFX;
     [SerializeField] private AudioClip _hurtSoundFX;
+    [SerializeField] private AudioClip _respawnSoundFX;
     private SpriteRenderer _spriteRenderer;
 
     private void Awake() 
@@ -37,5 +38,11 @@ public class PlayerSFX : MonoBehaviour
     {
         if (!_spriteRenderer.enabled) return;
         SoundFXManager.instance.PlaySoundFXClip(_hurtSoundFX, transform, 1f);
+    }
+
+    public void PlayRespawnSoundFX()
+    {
+        if (!_spriteRenderer.enabled) return;
+        SoundFXManager.instance.PlaySoundFXClip(_respawnSoundFX, transform, 1f);
     }
 }

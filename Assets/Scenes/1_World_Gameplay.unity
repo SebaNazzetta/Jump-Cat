@@ -77815,7 +77815,7 @@ MonoBehaviour:
   checkpointsActive: 1
   lastCheckpointPosition: {x: 0, y: 0, z: 0}
   checkpointUI: {fileID: 1799002698}
-  _timeMoving: 1
+  _timeMoving: 0.3
   lives: 0
   livesText: {fileID: 1257293214}
 --- !u!114 &751285783
@@ -81192,8 +81192,8 @@ Transform:
   m_GameObject: {fileID: 838879691}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.70710576, w: 0.70710784}
-  m_LocalPosition: {x: 0.6661, y: -2.7489, z: 0}
-  m_LocalScale: {x: 1.9909995, y: 3.6703591, z: 1}
+  m_LocalPosition: {x: 0.6568, y: -2.7489, z: 0}
+  m_LocalScale: {x: 1.9909995, y: 3.6519277, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 677645726}

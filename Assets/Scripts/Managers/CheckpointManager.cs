@@ -61,6 +61,8 @@ public class CheckpointManager : MonoBehaviour
             .particleOnDeath;
         var playerSR = player.GetComponentInChildren<SpriteRenderer>();
 
+        FindObjectOfType<PlayerSFX>().PlayRespawnSoundFX();
+
         particleObj.SetActive(true);
         playerSR.enabled = false;
         playerSR.color = new Color(1, 1, 1, 0f);

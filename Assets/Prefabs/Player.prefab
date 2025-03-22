@@ -124,6 +124,7 @@ MonoBehaviour:
   _landSoundFX: {fileID: 8300000, guid: 76968f45144a58b489053649e2791fa5, type: 3}
   _wallHitSoundFX: {fileID: 8300000, guid: a2b549bf87a8355499d6ee95ec359b69, type: 3}
   _hurtSoundFX: {fileID: 8300000, guid: d3ec88e62b3ff384ca0105e11e04e71d, type: 3}
+  _respawnSoundFX: {fileID: 8300000, guid: 0243d6f527573ae4f8ab38c633b3ccc3, type: 3}
 --- !u!114 &2607927625502257893
 MonoBehaviour:
   m_ObjectHideFlags: 0
