@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _checkpointPosition;
     private bool _releasedJump = false;
     private bool _jumpedWithThisButton = false;
+    [SerializeField] private Animator _catIcon;
 
     void Awake()
     {
@@ -135,6 +136,7 @@ public class PlayerController : MonoBehaviour
                 if(_spriteRenderer.enabled)
                 {
                     _anim.SetBool("isHurted", true);
+                    _catIcon.SetTrigger("Hurt");
                     _playedVFXOnce = false;
                 }
                 else

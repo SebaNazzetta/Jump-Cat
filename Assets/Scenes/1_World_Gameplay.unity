@@ -6106,7 +6106,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -594.5455, y: -1271.3452}
+  m_AnchoredPosition: {x: -594.5454, y: -1271.3452}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &133995283
@@ -90636,6 +90636,7 @@ GameObject:
   - component: {fileID: 1013165860}
   - component: {fileID: 1013165859}
   - component: {fileID: 1013165858}
+  - component: {fileID: 1013165861}
   m_Layer: 5
   m_Name: LivesIcon
   m_TagString: Untagged
@@ -90756,6 +90757,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013165856}
   m_CullTransparentMesh: 1
+--- !u!95 &1013165861
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013165856}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 601046c655482934cbfb9890d51c5aff, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1018141166
 GameObject:
   m_ObjectHideFlags: 0
@@ -104448,7 +104470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1304172885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -105364,6 +105386,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9166006342599950967, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
+      propertyPath: _catIcon
+      value: 
+      objectReference: {fileID: 1013165861}
     - target: {fileID: 9166006342599950967, guid: 922fb1519209de646b4745a2caf6ca14, type: 3}
       propertyPath: _leftButton
       value: 
@@ -112210,7 +112236,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1480944466
 RectTransform:
   m_ObjectHideFlags: 0
