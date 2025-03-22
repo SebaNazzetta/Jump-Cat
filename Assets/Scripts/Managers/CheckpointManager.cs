@@ -125,8 +125,10 @@ public class CheckpointManager : MonoBehaviour
 
     public void DecreaseLives()
     {
-        lives--;
-        UpdateLivesTMP();
+        if(lives > 0){
+            lives--;
+            UpdateLivesTMP();
+        }
         if (lives <= 0)
         {
             if(_checkpoint != null)
