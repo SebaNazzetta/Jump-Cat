@@ -215,10 +215,12 @@ public class PlayerController : MonoBehaviour
         {
             float tempx = this.transform.localScale.x * _lateralForce;
             float tempy = _jumpValue;
-            if (_leftButton.buttonPressed && _rightButton.buttonPressed)
+
+            if ((_leftButton.buttonPressed && _rightButton.buttonPressed) || (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)))
             {
                 tempx = 0;
             }
+
             _rb.velocity = new Vector2(tempx, tempy);
             _anim.SetBool("isPreJumping", false);
             SetLastJumpForce(_jumpValue);
@@ -256,15 +258,15 @@ public class PlayerController : MonoBehaviour
 
     public void CheckButtonPressed()
     {
-        if(!_canJump)
+        if (!_canJump)
         {
             _releasedJump = false;
             _jumpedWithThisButton = true;
             return;
         }
-        if(!_jumpedWithThisButton)
+        if (!_jumpedWithThisButton)
         {
-            if (_leftButton.buttonPressed && _isGrounded)
+            if ((_leftButton.buttonPressed || Input.GetKey(KeyCode.LeftArrow)) && _isGrounded)
             {
                 _releasedJump = false;
                 transform.localScale = new Vector3(-1, 1, 1);
@@ -272,7 +274,7 @@ public class PlayerController : MonoBehaviour
                 _anim.SetBool("isPreJumping", true);
                 return;
             }
-            else if (_rightButton.buttonPressed && _isGrounded)
+            else if ((_rightButton.buttonPressed || Input.GetKey(KeyCode.RightArrow)) && _isGrounded)
             {
                 _releasedJump = false;
                 transform.localScale = new Vector3(1, 1, 1);
@@ -282,7 +284,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!_leftButton.buttonPressed && !_rightButton.buttonPressed)
+        if (!_leftButton.buttonPressed && !_rightButton.buttonPressed && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
             _releasedJump = true;
             _jumpedWithThisButton = false;
