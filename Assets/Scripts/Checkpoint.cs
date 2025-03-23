@@ -8,6 +8,7 @@ public class Checkpoint : MonoBehaviour
     private bool _isCurrentCheckpoint;
     private PlayerCollision _playerCollision;
     private BoxCollider2D _boxCollider2D;
+    public static Checkpoint currentCheckpoint;
     [SerializeField] private Sprite _deactivatedSprite;
     [SerializeField] private Sprite _activatedSprite;
     [SerializeField] private GameObject _deadZone;
@@ -36,10 +37,10 @@ public class Checkpoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Player") && !_isCurrentCheckpoint)
+        if(collision.gameObject.CompareTag("Player"))
         {
-            //Open UI for checkpoints
-            _checkpointManager.OpenCheckpointUI(this);
+            currentCheckpoint = this;
+            if(!_isCurrentCheckpoint)_checkpointManager.OpenCheckpointUI(this);
         }
     }
 

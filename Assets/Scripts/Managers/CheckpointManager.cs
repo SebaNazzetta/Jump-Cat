@@ -131,8 +131,8 @@ public class CheckpointManager : MonoBehaviour
         }
         if (lives <= 0)
         {
-            if(_checkpoint != null)
-                _checkpoint.DeactivateCheckpoint();
+            _checkpoint = Checkpoint.currentCheckpoint;
+            _checkpoint.DeactivateCheckpoint();
             PlayerPrefs.SetString("LastCheckpoint", $"{0};{-2.67}");
             PlayerPrefs.Save();
         }
