@@ -6,7 +6,6 @@ using System.Globalization;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private bool _isPortrait = false;
     [Header("Jump Settings")]
     [SerializeField] private float _lateralForce = 6;
     [SerializeField] private float _jumpValue = 0.0f;
