@@ -114,16 +114,16 @@ public class PlayerController : MonoBehaviour
             //For when the player stands in a corner in the back
             if (_isBackCorner && !_isGrounded)
             {
-                _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
-                    _rb.velocity.y + 0.3f);
+                _rb.linearVelocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
+                    _rb.linearVelocity.y + 0.3f);
             }
 
             //For when the player stands in a corner in the back
             if (_isFrontCorner && !_isGrounded)
             {
                 transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
-                _rb.velocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
-                    _rb.velocity.y + 0.3f);
+                _rb.linearVelocity = new Vector2((_bounceForce + 0.7f) * (transform.localScale.x),
+                    _rb.linearVelocity.y + 0.3f);
             }
         }
 
@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         //If player falls for x seconds, then it will be hurted for x seconds
-        if (!_isGrounded && _rb.velocity.y < 0 && !_anim.GetBool("isHurted"))
+        if (!_isGrounded && _rb.linearVelocity.y < 0 && !_anim.GetBool("isHurted"))
         {
             _timeFalling += Time.deltaTime;
             if (_timeFalling >= _timeToFall)
@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (_rb.velocity.y > 0 && !_isGrounded)
+        if (_rb.linearVelocity.y > 0 && !_isGrounded)
         {
             _rb.sharedMaterial = _bounceMaterial;
         }
@@ -194,17 +194,17 @@ public class PlayerController : MonoBehaviour
         //For when the player touches the ground
         if (_isGrounded && _jumpValue == 0)
         {
-            var xVelocity = _playerCollision.isOnIce ? _rb.velocity.x : 0;
-            _rb.velocity = new Vector2(xVelocity, _rb.velocity.y);
+            var xVelocity = _playerCollision.isOnIce ? _rb.linearVelocity.x : 0;
+            _rb.linearVelocity = new Vector2(xVelocity, _rb.linearVelocity.y);
             _anim.SetBool("hitWall", false);
         }
 
         //For when the player touches a wall 
-        if (_rb.velocity.y != 0 && _hasWallInFront)
+        if (_rb.linearVelocity.y != 0 && _hasWallInFront)
         {
             _anim.SetBool("hitWall", true);
-            _rb.velocity = new Vector2(-_bounceForce * _rb.velocity.x,
-                _rb.velocity.y);
+            _rb.linearVelocity = new Vector2(-_bounceForce * _rb.linearVelocity.x,
+                _rb.linearVelocity.y);
 
             transform.localScale = new Vector3(-1 * transform.localScale.x, 1, 1);
         }
@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
                 tempx = 0;
             }
 
-            _rb.velocity = new Vector2(tempx, tempy);
+            _rb.linearVelocity = new Vector2(tempx, tempy);
             _anim.SetBool("isPreJumping", false);
             SetLastJumpForce(_jumpValue);
             _jumpedWithThisButton = true;
@@ -235,7 +235,7 @@ public class PlayerController : MonoBehaviour
             if (_isGrounded)
             {
                 if (_jumpValue != 0 && _jumpValue < _minJumpValue) _jumpValue = _minJumpValue;
-                _rb.velocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
+                _rb.linearVelocity = new Vector2(this.transform.localScale.x * _lateralForce, _jumpValue);
                 SetLastJumpForce(_jumpValue);
                 _jumpedWithThisButton = true;
                 _anim.SetTrigger("Jump");
@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(InstantiateJumpVFX());
             }
         }
-        _anim.SetFloat("VerticalVelocity", _rb.velocity.y);
+        _anim.SetFloat("VerticalVelocity", _rb.linearVelocity.y);
 
 
     }
